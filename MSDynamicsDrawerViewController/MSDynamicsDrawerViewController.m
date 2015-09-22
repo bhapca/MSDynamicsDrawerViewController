@@ -752,40 +752,45 @@ void MSDynamicsDrawerDirectionActionForMaskedValues(NSInteger direction, MSDynam
         && CGAffineTransformIsIdentity(self.paneView.transform)) {
         CGRect paneFrame = self.paneView.frame;
         
+        CGFloat adjustment = 0.0f;
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 90000
+        adjustment = 1.0f;
+#endif
+        
         const CGFloat kSlidingPaneJiggleRoom = 4.0f;
         if (self.potentialPaneState == MSDynamicsDrawerPaneStateOpen) {
             if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionLeft)
-                && self.openStateRevealWidth - 1 <= paneFrame.origin.x && paneFrame.origin.x <= self.openStateRevealWidth + kSlidingPaneJiggleRoom && paneFrame.origin.x != self.openStateRevealWidth) {
+                && self.openStateRevealWidth - adjustment <= paneFrame.origin.x && paneFrame.origin.x <= self.openStateRevealWidth + kSlidingPaneJiggleRoom && paneFrame.origin.x != self.openStateRevealWidth) {
                 paneFrame.origin.x = self.openStateRevealWidth;
                 self.paneView.frame = paneFrame;
             } else if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionRight)
-                && -self.openStateRevealWidth -kSlidingPaneJiggleRoom <= paneFrame.origin.x && paneFrame.origin.x < -self.openStateRevealWidth + 1 && paneFrame.origin.x != -self.openStateRevealWidth) {
+                && -self.openStateRevealWidth -kSlidingPaneJiggleRoom <= paneFrame.origin.x && paneFrame.origin.x < -self.openStateRevealWidth + adjustment && paneFrame.origin.x != -self.openStateRevealWidth) {
                 paneFrame.origin.x = -self.openStateRevealWidth;
                 self.paneView.frame = paneFrame;
             } else if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionTop)
-                       && self.openStateRevealWidth - 1 <= paneFrame.origin.y && paneFrame.origin.y <= self.openStateRevealWidth + kSlidingPaneJiggleRoom && paneFrame.origin.y != self.openStateRevealWidth) {
+                       && self.openStateRevealWidth - adjustment <= paneFrame.origin.y && paneFrame.origin.y <= self.openStateRevealWidth + kSlidingPaneJiggleRoom && paneFrame.origin.y != self.openStateRevealWidth) {
                 paneFrame.origin.y = self.openStateRevealWidth;
                 self.paneView.frame = paneFrame;
             } else if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionBottom)
-                       && -self.openStateRevealWidth -kSlidingPaneJiggleRoom <= paneFrame.origin.y && paneFrame.origin.y < -self.openStateRevealWidth + 1 && paneFrame.origin.y != -self.openStateRevealWidth) {
+                       && -self.openStateRevealWidth -kSlidingPaneJiggleRoom <= paneFrame.origin.y && paneFrame.origin.y < -self.openStateRevealWidth + adjustment && paneFrame.origin.y != -self.openStateRevealWidth) {
                 paneFrame.origin.y = -self.openStateRevealWidth;
                 self.paneView.frame = paneFrame;
             }
         } else if (self.potentialPaneState == MSDynamicsDrawerPaneStateClosed) {
             if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionLeft)
-                && -kSlidingPaneJiggleRoom <= paneFrame.origin.x && paneFrame.origin.x <= 1 && paneFrame.origin.x != 0) {
+                && -kSlidingPaneJiggleRoom <= paneFrame.origin.x && paneFrame.origin.x <= adjustment && paneFrame.origin.x != 0) {
                 paneFrame.origin.x = 0;
                 self.paneView.frame = paneFrame;
             } else if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionRight)
-                && -1 < paneFrame.origin.x && paneFrame.origin.x <= kSlidingPaneJiggleRoom && paneFrame.origin.x != 0) {
+                && -adjustment < paneFrame.origin.x && paneFrame.origin.x <= kSlidingPaneJiggleRoom && paneFrame.origin.x != 0) {
                 paneFrame.origin.x = 0;
                 self.paneView.frame = paneFrame;
             } else if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionTop)
-                       && -kSlidingPaneJiggleRoom <= paneFrame.origin.y && paneFrame.origin.y < 1 && paneFrame.origin.y != 0) {
+                       && -kSlidingPaneJiggleRoom <= paneFrame.origin.y && paneFrame.origin.y < adjustment && paneFrame.origin.y != 0) {
                 paneFrame.origin.y = 0;
                 self.paneView.frame = paneFrame;
             } else if ((self.currentDrawerDirection & MSDynamicsDrawerDirectionBottom)
-                       && -1 < paneFrame.origin.y && paneFrame.origin.y <= kSlidingPaneJiggleRoom && paneFrame.origin.y != 0) {
+                       && -adjustment < paneFrame.origin.y && paneFrame.origin.y <= kSlidingPaneJiggleRoom && paneFrame.origin.y != 0) {
                 paneFrame.origin.y = 0;
                 self.paneView.frame = paneFrame;
             }
